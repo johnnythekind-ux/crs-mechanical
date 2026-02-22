@@ -1,35 +1,18 @@
-import OpenAI from "openai";
-
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const apiKey = process.env.OPENAI_API_KEY;
-  console.log("CRS_TEST_SECRET exists:", !!process.env.CRS_TEST_SECRET);
-  console.log("OPENAI_API_KEY exists:", !!process.env.OPENAI_API_KEY);
-  if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "Missing env var: OPENAI_API_KEY" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
-
-  const client = new OpenAI({ apiKey });
-
-  const prompt = body?.input ?? "Write a 3-sentence neutral report about the importance of testing in production.";
-
-  const completion = await client.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: "You produce concise, structured, neutral reports." },
-      { role: "user", content: prompt }
-    ],
-    temperature: 0.4
-  });
-
-  const text = completion.choices?.[0]?.message?.content ?? "";
+  const mockReport =
+    `MOCK REPORT:\n` +
+    `Input received: ${body.input ?? "(no input provided)"}\n\n` +
+    `Summary: You are building disciplined infrastructure execution by shipping, breaking, and fixing.\n` +
+    `Next step: Add billing later to enable real AI output.`;
 
   return new Response(
-    JSON.stringify({ input: prompt, output: text }),
+    JSON.stringify({
+      mode: "mock",
+      report: mockReport,
+      received: body,
+    }),
     { headers: { "Content-Type": "application/json" } }
   );
 }
