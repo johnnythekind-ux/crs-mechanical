@@ -4,6 +4,7 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   const apiKey = process.env.OPENAI_API_KEY;
+  console.log("OPENAI_API_KEY exists:", !!apiKey);
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: "Missing env var: OPENAI_API_KEY" }),
