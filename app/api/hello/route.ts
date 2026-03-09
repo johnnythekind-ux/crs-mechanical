@@ -1,18 +1,58 @@
-export async function POST(request: Request) {
-  const body = await request.json();
+import { NextResponse } from "next/server"
+import { createClient } from "@supabase/supabase-js"
 
-  const mockReport =
-    `MOCK REPORT:\n` +
-    `Input received: ${body.input ?? "(no input provided)"}\n\n` +
-    `Summary: You are building disciplined infrastructure execution by shipping, breaking, and fixing.\n` +
-    `Next step: Add billing later to enable real AI output.`;
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
-  return new Response(
-    JSON.stringify({
-      mode: "mock",
-      report: mockReport,
-      received: body,
-    }),
-    { headers: { "Content-Type": "application/json" } }
-  );
+export async function POST(req: Request) {
+  const body = await req.json()
+
+  const { topic, audience, tone, length, notes } = body
+
+  const mockReport = `MOCK REPORT
+Topic: ${topic}
+Audience: ${audience}
+Tone: ${tone}
+Length: ${length}
+
+Summary:
+You are building a report builder by locking the full-stack loop first.
+
+Key Points:
+- UI collects structured inputs
+- API validates and returns consistent JSON
+- Mock mode keeps things stable while you build layers
+
+Notes Received:
+${notes || "(none)"}
+
+Next Step:
+Database save active.`
+
+  const { data, error } = await supabase
+    .from("reports")
+    .insert([
+  {
+    mode: "database",
+    topic,
+    audience,
+    tone,
+    length,
+    notes,
+    report: mockReport,
+  },
+])
+    .select()
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json({
+    mode: "database",
+    report: mockReport,
+    saved: data[0],
+  })
 }
