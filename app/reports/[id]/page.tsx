@@ -1,4 +1,39 @@
+import ReactMarkdown from "react-markdown"
+import type { Components } from "react-markdown"
 import { createClient } from "@supabase/supabase-js";
+
+
+const markdownComponents = {
+  h1: ({children}: any) => (
+    <h1 style={{fontSize: "2rem", marginBottom: "1rem"}}>
+      {children}
+    </h1>
+  ),
+
+  h2: ({children}: any) => (
+    <h2 style={{fontSize: "1.4rem", marginTop: "2rem", marginBottom: "0.75rem"}}>
+      {children}
+    </h2>
+  ),
+
+  p: ({children}: any) => (
+    <p style={{lineHeight: 1.7, marginBottom: "1rem"}}>
+      {children}
+    </p>
+  ),
+
+  ul: ({children}: any) => (
+    <ul style={{paddingLeft: "1.4rem", marginBottom: "1rem"}}>
+      {children}
+    </ul>
+  ),
+
+  li: ({children}: any) => (
+    <li style={{marginBottom: "0.4rem", lineHeight: 1.6}}>
+      {children}
+    </li>
+  )
+};
 
 export default async function ReportPage({
   params,
@@ -99,16 +134,19 @@ const id = resolvedParams?.id;
       <p>{data.length ?? "—"}</p>
 
       <h3>Full Report</h3>
-      <pre
-        style={{
-          whiteSpace: "pre-wrap",
-          padding: 12,
-          border: "1px solid #eee",
-          borderRadius: 8,
-        }}
-      >
-        {data.report ?? "—"}
-      </pre>
-    </div>
+<div
+  style={{
+    padding: 24,
+    border: "1px solid #eee",
+    borderRadius: 12,
+    maxWidth: 850,
+    background: "#fff",
+  }}
+>
+  <ReactMarkdown components={markdownComponents}>
+  {data.report ?? "-"}
+</ReactMarkdown>
+</div>
+</div>
   );
-}
+  }

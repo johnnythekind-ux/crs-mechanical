@@ -1,6 +1,44 @@
 "use client";
 
+import ReactMarkdown from "react-markdown";
 import { useState } from "react";
+
+const markdownComponents = {
+  h1: ({ children }: any) => (
+    <h1 style={{ fontSize: "2rem", marginBottom: "1rem", lineHeight: 1.2 }}>
+      {children}
+    </h1>
+  ),
+
+  h2: ({ children }: any) => (
+    <h2
+      style={{
+        fontSize: "1.4rem",
+        marginTop: "2rem",
+        marginBottom: "0.75rem",
+        lineHeight: 1.3,
+      }}
+    >
+      {children}
+    </h2>
+  ),
+
+  p: ({ children }: any) => (
+    <p style={{ lineHeight: 1.7, marginBottom: "1rem" }}>{children}</p>
+  ),
+
+  ul: ({ children }: any) => (
+    <ul style={{ paddingLeft: "1.4rem", marginBottom: "1rem" }}>{children}</ul>
+  ),
+
+  li: ({ children }: any) => (
+    <li style={{ marginBottom: "0.4rem", lineHeight: 1.6 }}>{children}</li>
+  ),
+
+  strong: ({ children }: any) => (
+    <strong style={{ fontWeight: 700 }}>{children}</strong>
+  ),
+};
 
 export default function Home() {
   const [topic, setTopic] = useState("");
@@ -13,13 +51,32 @@ export default function Home() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  async function generate() {
-    setLoading(true);
-    setError(null);
-    setResult(null);
+  const disabled = loading || !topic.trim() || !audience.trim();
 
-    try {
-      const res = await fetch("/api/hello", {
+  async function generate() {
+  if (loading) return;
+
+  if (!topic.trim()) {
+    alert("Please enter a topic.");
+    return;
+  }
+
+  if (topic.length > 300) {
+    alert("Topic is too long.");
+    return;
+  }
+
+  if (!audience.trim()) {
+    alert("Please enter an audience.");
+    return;
+  }
+
+  setLoading(true);
+  setError(null);
+  setResult(null);
+
+  try {
+      const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
 
@@ -48,19 +105,41 @@ export default function Home() {
     }
   }
 
-  // Disable Generate if topic/audience missing
-  const disabled =
-    loading ||
-    topic.trim().length === 0 ||
-    audience.trim().length === 0;
+  function clearForm() {
+  setTopic("");
+  setAudience("");
+  setTone("Clear & Practical");
+  setLength("Medium");
+  setNotes("");
+  setResult(null);
+  setError(null);
+}
 
   return (
-    <main style={{ maxWidth: 820, margin: "40px auto", padding: 16, fontFamily: "system-ui" }}>
-      <h1 style={{ fontSize: 28, marginBottom: 8 }}>CRS Mechanical — AI Report Builder (Mock)</h1>
+    <main
+  style={{
+    maxWidth: 900,
+    margin: "40px auto",
+    padding: 24,
+    fontFamily: "system-ui, sans-serif",
+  }}
+>
+      <h1 style={{ fontSize: 32, marginBottom: 6 }}>ReportForge — AI Report Builder</h1>
 
-      <p style={{ marginTop: 0, color: "#555" }}>
-        Fill the fields → click Generate → backend returns mock report + JSON.
+      <p style={{ marginTop: 0, marginBottom: 28, color: "#555" }}>
+        Turn your topic into a structured AI-generated report in seconds.
       </p>
+
+      <section style={{ marginTop: 8 }}>
+  <div
+    style={{
+      padding: 24,
+      border: "1px solid #e5e5e5",
+      borderRadius: 16,
+      background: "#fff",
+      boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+    }}
+  >
 
       <div style={{ display: "grid", gap: 12 }}>
         <label>
@@ -68,7 +147,7 @@ export default function Home() {
           <input
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            placeholder="e.g., Building powerful apps"
+            placeholder="e.g., How schools should use AI tools"
             style={{ width: "100%", padding: 10, fontSize: 14 }}
           />
         </label>
@@ -78,7 +157,7 @@ export default function Home() {
           <input
             value={audience}
             onChange={(e) => setAudience(e.target.value)}
-            placeholder="e.g., Novice developer / Non-technical founder"
+            placeholder="e.g., School administrators or product managers"
             style={{ width: "100%", padding: 10, fontSize: 14 }}
           />
         </label>
@@ -109,7 +188,7 @@ export default function Home() {
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Extra context here..."
+            placeholder="Add context, constraints, or goals..."
             rows={6}
             style={{ width: "100%", padding: 12, fontSize: 14 }}
           />
@@ -126,15 +205,7 @@ export default function Home() {
         </button>
 
         <button
-          onClick={() => {
-            setTopic("");
-            setAudience("");
-            setTone("Clear & Practical");
-            setLength("Medium");
-            setNotes("");
-            setResult(null);
-            setError(null);
-          }}
+          onClick={clearForm}
           disabled={loading}
           style={{ padding: "10px 14px", fontSize: 14, cursor: "pointer" }}
         >
@@ -147,24 +218,40 @@ export default function Home() {
           Error: {error}
         </pre>
       )}
+    </div>
+  
+</section>
 
       {result?.report && (
-        <>
-          <h2 style={{ marginTop: 18, marginBottom: 8, fontSize: 18 }}>Report</h2>
-          <pre style={{ padding: 12, background: "#f4f4f4", whiteSpace: "pre-wrap" }}>
-            {result.report}
-          </pre>
-        </>
-      )}
+  <section style={{ marginTop: 36 }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 12,
+      }}
+    >
+      <h2 style={{ margin: 0, fontSize: 20 }}>Generated Report</h2>
+      <span style={{ fontSize: 13, color: "#666" }}>AI-generated preview</span>
+    </div>
 
-      {result && (
-        <>
-          <h2 style={{ marginTop: 18, marginBottom: 8, fontSize: 18 }}>Full JSON</h2>
-          <pre style={{ padding: 12, background: "#f4f4f4", whiteSpace: "pre-wrap" }}>
-            {JSON.stringify(result, null, 2)}
-          </pre>
-        </>
-      )}
+    <div
+      style={{
+        padding: 28,
+        border: "1px solid #e5e5e5",
+        borderRadius: 16,
+        background: "#fff",
+        boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+      }}
+    >
+      <ReactMarkdown components={markdownComponents}>
+        {result.report}
+      </ReactMarkdown>
+    </div>
+  </section>
+)}
+
     </main>
   );
 }
