@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ReactMarkdown from "react-markdown"
 import type { Components } from "react-markdown"
 import { createClient } from "@supabase/supabase-js";
@@ -105,8 +106,19 @@ const id = resolvedParams?.id;
   }
 
   return (
-    <div style={{ padding: 24, maxWidth: 900 }}>
-      <h1 style={{ marginBottom: 8 }}>Report</h1>
+  <div style={{ padding: 24, maxWidth: 900 }}>
+
+    <div style={{ marginBottom: 16, display: "flex", gap: 16 }}>
+      <Link href="/history" style={{ textDecoration: "underline" }}>
+        Back to History
+      </Link>
+
+      <Link href="/" style={{ textDecoration: "underline" }}>
+        Back to Builder
+      </Link>
+    </div>
+
+    <h1 style={{ marginBottom: 8 }}>Report</h1>
 
       <div style={{ opacity: 0.7, marginBottom: 16 }}>
         <div>

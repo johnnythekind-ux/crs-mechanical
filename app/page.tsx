@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { useState } from "react";
 
@@ -195,23 +196,31 @@ export default function Home() {
         </label>
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", gap: 12 }}>
-        <button
-          onClick={generate}
-          disabled={disabled}
-          style={{ padding: "10px 14px", fontSize: 14, cursor: disabled ? "not-allowed" : "pointer" }}
-        >
-          {loading ? "Generating..." : "Generate Report"}
-        </button>
+      <div style={{ marginTop: 12, display: "flex", gap: 12, alignItems: "center" }}>
+  <button
+    onClick={generate}
+    disabled={disabled}
+    style={{ padding: "10px 14px", fontSize: 14, cursor: disabled ? "not-allowed" : "pointer" }}
+  >
+    {loading ? "Generating..." : "Generate Report"}
+  </button>
 
-        <button
-          onClick={clearForm}
-          disabled={loading}
-          style={{ padding: "10px 14px", fontSize: 14, cursor: "pointer" }}
-        >
-          Clear
-        </button>
-      </div>
+  <button
+    onClick={clearForm}
+    disabled={loading}
+    style={{ padding: "10px 14px", fontSize: 14, cursor: "pointer" }}
+  >
+    Clear
+  </button>
+
+  <Link
+  href="/history"
+  className="text-sm underline underline-offset-4"
+  style={{ padding: "10px 14px" }}
+>
+    View History
+  </Link>
+</div>
 
       {error && (
         <pre style={{ marginTop: 16, padding: 12, background: "#ffecec", color: "#a40000", whiteSpace: "pre-wrap" }}>

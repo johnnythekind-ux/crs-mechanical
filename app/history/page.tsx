@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type ReportRow = {
@@ -45,6 +46,11 @@ export default function HistoryPage() {
 
   return (
     <main style={{ maxWidth: 900, margin: "40px auto", padding: 16, fontFamily: "system-ui" }}>
+      <div style={{ marginBottom: 12 }}>
+  <Link href="/" style={{ textDecoration: "underline" }}>
+    Back to Builder
+  </Link>
+</div>
       <h1 style={{ fontSize: 28, marginBottom: 8 }}>History</h1>
       <p style={{ marginTop: 0, color: "#555" }}>
         Saved reports from Supabase (newest first).
