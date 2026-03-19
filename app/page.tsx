@@ -142,7 +142,7 @@ const exportPDF = async () => {
   const html2pdf = (await import("html2pdf.js")).default;
 
   const opt = {
-    margin: [20, 20, 20, 20],
+    margin: [20, 20, 20, 20] as [number, number, number, number],
     filename: "report.pdf",
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2 },
