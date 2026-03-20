@@ -56,15 +56,21 @@ export default function HistoryPage() {
         Recent reports, newest first.
       </p>
 
-      <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 12 }}>
         <a href="/" style={{ textDecoration: "underline" }}>← Back</a>
         <button
-          onClick={load}
-          disabled={loading}
-          style={{ padding: "8px 12px", cursor: "pointer" }}
-        >
-          {loading ? "Refreshing..." : "Refresh"}
-        </button>
+  onClick={load}
+  disabled={loading}
+  style={{
+    padding: "6px 12px",
+    border: "1px solid #ccc",
+    borderRadius: 6,
+    background: "#f9f9f9",
+    cursor: "pointer",
+  }}
+>
+  {loading ? "Refreshing..." : "↻ Refresh"}
+</button>
       </div>
 
       {error && (
