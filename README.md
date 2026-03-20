@@ -113,22 +113,22 @@ npm run dev
 ## 📸 Screenshots
 
 ### 🏠 Builder (Empty State)
-![Home](./public/screenshots/home.png)
+![Home](screenshots/home.png)
 
 ---
 
 ### ⚙️ Generating Report
-![Loading](./public/screenshots/loading.png)
+![Loading](screenshots/loading.png)
 
 ---
 
 ### 📄 Generated Report
-![Report](./public/screenshots/report.png)
+![Report](screenshots/report.png)
 
 ---
 
 ### 📊 Recent Reports
-![History](./public/screenshots/history.png)
+![History](screenshots/history.png)
 
 ---
 
