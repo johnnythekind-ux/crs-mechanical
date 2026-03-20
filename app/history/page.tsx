@@ -48,12 +48,12 @@ export default function HistoryPage() {
     <main style={{ maxWidth: 900, margin: "40px auto", padding: 16, fontFamily: "system-ui" }}>
       <div style={{ marginBottom: 12 }}>
   <Link href="/" style={{ textDecoration: "underline" }}>
-    Back to Builder
+    Back to Report Builder
   </Link>
 </div>
-      <h1 style={{ fontSize: 28, marginBottom: 8 }}>History</h1>
+      <h1 style={{ fontSize: 28, marginBottom: 8 }}>Recent Reports</h1>
       <p style={{ marginTop: 0, color: "#555" }}>
-        Saved reports from Supabase (newest first).
+        Recent reports, newest first.
       </p>
 
       <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
