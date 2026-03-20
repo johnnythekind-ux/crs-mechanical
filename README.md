@@ -112,7 +112,23 @@ npm run dev
 
 ## 📸 Screenshots
 
-_Add screenshots here once deployed_
+### 🏠 Builder (Empty State)
+![Home](./public/screenshots/home.png)
+
+---
+
+### ⚙️ Generating Report
+![Loading](./public/screenshots/loading.png)
+
+---
+
+### 📄 Generated Report
+![Report](./public/screenshots/report.png)
+
+---
+
+### 📊 Recent Reports
+![History](./public/screenshots/history.png)
 
 ---
 
