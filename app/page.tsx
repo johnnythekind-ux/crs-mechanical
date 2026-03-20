@@ -344,7 +344,7 @@ const exportPDF = async () => {
   display: "inline-block"
 }}
   >
-    View History
+    Browse Recent Reports
   </Link>
 </div>
 
